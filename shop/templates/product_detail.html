@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="img-fluid rounded shadow" alt="{{ product.name }}">
+            {% else %}
+                <div class="bg-light p-5 text-center">Rasm topilmadi</div>
+            {% endif %}
+        </div>
+        
+        <div class="col-md-6">
+            <h1 class="fw-bold mb-3">{{ product.name }}</h1>
+            <h3 class="text-success mb-4">{{ product.price }} so'm</h3>
+            
+            <p class="text-muted">
+                Kategoriya: <strong>{{ product.category.name }}</strong>
+            </p>
+            
+            <p class="mt-4">
+                Bu mahsulot sizning talablaringizga to‘liq javob beradi. 
+                Sifatli va hamyonbop narxlarda xarid qiling!
+            </p>
+            
+            <div class="mt-5">
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-lg px-5">
+                    Savatga qo'shish
+                </a>
+                <a href="{% url 'index' %}" class="btn btn-outline-secondary btn-lg ms-2">
+                    Orqaga qaytish
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

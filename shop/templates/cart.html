@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">🛒 Sizning Savatingiz</h2>
+
+    {% if cart_items %}
+        <div class="card shadow-sm border-0">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Mahsulot</th>
+                            <th>Narxi</th>
+                            <th>Soni</th>
+                            <th>Jami</th>
+                            <th>Amallar</th> </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    {% if item.product.image %}
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width: 50px; height: 50px; object-fit: cover;" class="me-3 rounded">
+                                    {% endif %}
+                                    <strong>{{ item.product.name }}</strong>
+                                </div>
+                            </td>
+                            <td>{{ item.product.price }} so'm</td>
+                            <td>
+                                <span class="badge bg-secondary">{{ item.quantity }}</span>
+                            </td>
+                            <td><strong>{{ item.product.price }} so'm</strong></td>
+                            <td>
+                                <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-outline-danger btn-sm">
+                                    O'chirish
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer bg-white p-4 d-flex justify-content-between align-items-center">
+                <h4>Jami: <span class="text-success">{{ total_price }} so'm</span></h4>
+                <a href="{% url 'checkout' %}" class="btn btn-success btn-lg">Buyurtma berish</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <h4 class="text-muted">Savat hozircha bo'sh.</h4>
+            <a href="{% url 'index' %}" class="btn btn-primary mt-3">Xarid qilishga qaytish</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

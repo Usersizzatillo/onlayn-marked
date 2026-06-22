@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title">Profilim</h4>
+                    <p><strong>Foydalanuvchi:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <a href="{% url 'logout' %}" class="btn btn-danger w-100">Tizimdan chiqish</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h3 class="mb-4">Buyurtmalarim tarixi</h3>
+            {% if orders %}
+            <div class="table-responsive">
+                <table class="table table-hover border">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Sana</th>
+                            <th>Holati</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>#{{ order.id }}</td>
+                            <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                            <td>
+                                {% if order.status == 'pending' %}
+                                    <span class="badge bg-warning text-dark">Qabul qilindi</span>
+                                {% elif order.status == 'shipping' %}
+                                    <span class="badge bg-primary">Yetkazilmoqda</span>
+                                {% else %}
+                                    <span class="badge bg-success">Yetkazildi</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <div class="alert alert-info">Sizda hali buyurtmalar mavjud emas.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

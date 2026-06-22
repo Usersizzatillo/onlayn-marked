@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="banner-style mb-5 text-center p-5 text-white" style="background: linear-gradient(45deg, #2c3e50, #27ae60); border-radius: 15px;">
+        <h1 class="display-4 fw-bold">FoodMart'ga xush kelibsiz!</h1>
+        <p class="lead">Sizning uyingiz uchun eng saralangan oziq-ovqat mahsulotlari.</p>
+    </div>
+
+    <div class="row mb-5 g-3">
+        <div class="col-md-8">
+            <form method="GET" class="d-flex">
+                <input type="text" name="q" class="form-control me-2" placeholder="Mahsulot qidirish..." value="{{ query }}">
+                <button type="submit" class="btn btn-primary">Qidirish</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <form method="GET">
+                <select name="category" class="form-select" onchange="this.form.submit()">
+                    <option value="">Barcha kategoriyalar</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.id }}" {% if selected_category|add:"0" == cat.id %}selected{% endif %}>
+                            {{ cat.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for product in products %}
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top p-3" alt="{{ product.name }}" style="height: 200px; object-fit: contain;">
+                    {% endif %}
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="text-muted small">{{ product.category.name }}</p>
+                        <h5 class="text-success fw-bold">{{ product.price }} so'm</h5>
+                    </div>
+                    <div class="card-footer bg-white border-0 pb-3">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'product_detail' product.pk %}" class="btn btn-outline-dark btn-sm">Batafsil</a>
+                            <a href="{% url 'add_to_cart' product.pk %}" class="btn btn-success btn-sm">Savatga qo'shish</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <h3>Mahsulot topilmadi :(</h3>
+                <p>Qidiruv so‘rovini o‘zgartirib ko‘ring.</p>
+            </div>
+        {% endfor %} </div>
+{% endblock %}
